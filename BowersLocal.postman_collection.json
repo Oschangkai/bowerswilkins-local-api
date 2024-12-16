@@ -1,0 +1,1583 @@
+{
+	"info": {
+		"_postman_id": "a56d23fd-4c3e-4fcb-9236-6c35ea31140b",
+		"name": "BowersLocal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "536255"
+	},
+	"item": [
+		{
+			"name": "Device Information",
+			"item": [
+				{
+					"name": "get node",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.node_id).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Node ID must be a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.node_id).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Node ID should not be empty\");",
+									"",
+									"    pm.collectionVariables.set(\"node_id\", responseData.node_id);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{device_url}}/mesh/node",
+							"protocol": "https",
+							"host": [
+								"{{device_url}}"
+							],
+							"path": [
+								"mesh",
+								"node"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get node",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{device_url}}/mesh/node",
+									"protocol": "https",
+									"host": [
+										"{{device_url}}"
+									],
+									"path": [
+										"mesh",
+										"node"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 11:16:59 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"node_id\": \"a4c68e00-626d-42d6-8402-df7d4d9a17c2\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Metadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.to.have.status(200));",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.nodes).to.be.an('array');",
+									"    ",
+									"    responseData.nodes.forEach(function(node) {",
+									"        pm.expect(node).to.include.all.keys('space-name', 'nodeID', 'type', 'version', 'protocol', 'available', 'name', 'space-id', 'role');",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"Verify that the response contains the expected fields - node_id & space-id\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    ",
+									"    pm.expect(responseData.nodes[0]).to.exist;",
+									"",
+									"    pm.expect(responseData.nodes[0].nodeID).to.exist;",
+									"    pm.collectionVariables.set(\"node_id\", responseData.nodes[0].nodeID);",
+									"",
+									"    pm.expect(responseData.nodes[0][\"space-id\"]).to.exist;",
+									"    pm.collectionVariables.set(\"space_id\", responseData.nodes[0][\"space-id\"]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{device_url}}/1/mesh/nodes",
+							"protocol": "https",
+							"host": [
+								"{{device_url}}"
+							],
+							"path": [
+								"1",
+								"mesh",
+								"nodes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Metadata",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{device_url}}/1/mesh/nodes",
+									"protocol": "https",
+									"host": [
+										"{{device_url}}"
+									],
+									"path": [
+										"1",
+										"mesh",
+										"nodes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 11:55:14 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nodes\": [\n        {\n            \"space-name\": \"My Stereo\",\n            \"nodeID\": \"a4c68e00-626d-42d6-8402-df7d4d9a17c2\",\n            \"type\": \"com.bowerswilkins.liberty.zep\",\n            \"version\": \"11012\",\n            \"protocol\": \"mesh.0.4\",\n            \"available\": \"\",\n            \"name\": \"L-ZEP\",\n            \"space-id\": \"a1cb2130-ec37-46d5-873e-0f8de7643efc\",\n            \"role\": \"primary\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.version).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Version is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.version).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"",
+									"    pm.collectionVariables.set(\"version\", responseData.version);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{device_url}}/software/version",
+							"protocol": "https",
+							"host": [
+								"{{device_url}}"
+							],
+							"path": [
+								"software",
+								"version"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Version",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{device_url}}/software/version",
+									"protocol": "https",
+									"host": [
+										"{{device_url}}"
+									],
+									"path": [
+										"software",
+										"version"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 12:35:24 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"version\": \"11012\"\n}"
+						}
+					]
+				},
+				{
+					"name": "MeshInfo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{device_url}}/mesh/key/BWMeshInfo",
+							"protocol": "https",
+							"host": [
+								"{{device_url}}"
+							],
+							"path": [
+								"mesh",
+								"key",
+								"BWMeshInfo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "MeshInfo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{device_url}}/mesh/key/BWMeshInfo",
+									"protocol": "https",
+									"host": [
+										"{{device_url}}"
+									],
+									"path": [
+										"mesh",
+										"key",
+										"BWMeshInfo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 10:42:51 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"value\": \"{\\n    \\\"meshSAE\\\": \\\"000a0a0a0aaaa\\\",\\n    \\\"meshSSID\\\": \\\"1bbbb11b1b1bb\\\"\\n}\\n\"\n}"
+						}
+					]
+				},
+				{
+					"name": "change_space_name",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"My Stereo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{device_url}}/2/mesh/spaces/{{space_id}}",
+							"protocol": "https",
+							"host": [
+								"{{device_url}}"
+							],
+							"path": [
+								"2",
+								"mesh",
+								"spaces",
+								"{{space_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Audio and Settings Commands",
+			"item": [
+				{
+					"name": "get available_sources",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-ID",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"name\": \"get_property\",\n    \"parameters\": {\n      \"property\": \"liberty.oobed.available_sources\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get gain.treble",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"query\",\n    \"method\": {\n        \"name\": \"get_property\",\n        \"parameters\": {\n            \"property\": \"liberty.property.gain.treble\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get gain.treble",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-Id",
+										"value": "{{X-Request-Id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"query\",\n    \"method\": {\n        \"name\": \"get_property\",\n        \"parameters\": {\n            \"property\": \"liberty.property.gain.treble\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{command_url}}",
+									"host": [
+										"{{command_url}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 11:08:32 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"property\": \"liberty.property.gain.treble\",\n    \"value\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "set-treble",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"name\": \"set_property\",\n    \"parameters\": {\n      \"property\": \"liberty.property.gain.treble\",\n      \"value\": 0\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gain.bass",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"query\",\n    \"method\": {\n        \"name\": \"get_property\",\n        \"parameters\": {\n            \"property\": \"liberty.property.gain.bass\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "gain.bass",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-Id",
+										"value": "{{X-Request-Id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"type\":\"query\",\"method\":{\"name\":\"get_property\",\"parameters\":{\"property\":\"liberty.property.gain.bass\"}}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{command_url}}",
+									"host": [
+										"{{command_url}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 10:36:56 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"property\": \"liberty.property.gain.bass\",\n    \"value\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "set-bass",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"name\": \"set_property\",\n    \"parameters\": {\n      \"property\": \"liberty.property.gain.bass\",\n      \"value\": 200\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Media Control",
+			"item": [
+				{
+					"name": "get_volume",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"method\": {\n        \"parameters\": {\n            \"source\": \"\"\n        },\n        \"name\": \"get_volume\"\n    },\n    \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "airplay2.get_volume",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-ID",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"parameters\": {\n      \"source\": \"a4c68e00-626d-42d6-8402-df7d4d9a17c2+audiod_plugin_airplay2\"\n    },\n    \"name\": \"get_volume\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "set volume",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"name\": \"set_volume\",\n    \"parameters\": {\n      \"muted\": false,\n      \"source\": \"\",\n      \"value\": 25\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "play.pause",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": {\n    \"parameters\": {\n      \"command\": \"liberty.command.play_pause\",\n      \"parameters\": {\n        \"tileID\": \"{{node_id}}+audiod-plug-in-bluetooth\"\n      }\n    },\n    \"name\": \"send_command\"\n  },\n  \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "next_track",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": {\n    \"parameters\": {\n      \"command\": \"liberty.command.next_track\",\n      \"parameters\": {\n        \"tileID\": \"{{node_id}}+audiod-plug-in-bluetooth\"\n      }\n    },\n    \"name\": \"send_command\"\n  },\n  \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "previous_track",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": {\n    \"parameters\": {\n      \"parameters\": {\n        \"tileID\": \"{{node_id}}+audiod-plug-in-bluetooth\"\n      },\n      \"command\": \"liberty.command.previous_track\"\n    },\n    \"name\": \"send_command\"\n  },\n  \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "audiotile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"query\",\n    \"method\": {\n        \"name\": \"get_property\",\n        \"parameters\": {\n            \"property\": \"liberty.oobed.audiotile\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_artwork",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"parameters\": {\n      \"property\": \"liberty.oobed.audiotile.artwork\"\n    },\n    \"name\": \"get_property\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Hardware Controls",
+			"item": [
+				{
+					"name": "hardware-downlight",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"method\": {\n        \"name\": \"get_property\",\n        \"parameters\": {\n            \"property\": \"liberty.lights.hardware-downlight\"\n        }\n    },\n    \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "hardware-downlight",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-Id",
+										"value": "{{X-Request-Id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"method\": {\n        \"name\": \"get_property\",\n        \"parameters\": {\n            \"property\": \"liberty.lights.hardware-downlight\"\n        }\n    },\n    \"type\": \"query\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{command_url}}",
+									"host": [
+										"{{command_url}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 10:36:46 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"property\": \"liberty.lights.hardware-downlight\",\n    \"value\": {\n        \"enabled\": true,\n        \"brightness\": 0.01,\n        \"supported\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "set-hardware-downlight",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": {\n    \"parameters\": {\n      \"property\": \"liberty.lights.hardware-downlight\",\n      \"value\": {\n        \"enabled\": true,\n        \"brightness\": 0.01\n      }\n    },\n    \"name\": \"set_property\"\n  },\n  \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "play_sound",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"parameters\": {\n      \"command\": \"liberty.oobed.command.play_sound\",\n      \"parameters\": {}\n    },\n    \"name\": \"send_command\"\n  }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "System Operations",
+			"item": [
+				{
+					"name": "check_software_update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"query\",\n    \"method\": {\n        \"name\": \"check_software_update\",\n        \"parameters\": {}\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "check_software_update",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-Id",
+										"value": "{{X-Request-Id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"query\",\n    \"method\": {\n        \"name\": \"check_software_update\",\n        \"parameters\": {}\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{command_url}}",
+									"host": [
+										"{{command_url}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 10:37:44 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"update_release_notes\": \"\",\n    \"update_version\": \"\",\n    \"update_available\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "software_update_status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"name\": \"software_update_status\",\n    \"parameters\": {}\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "software_update_status",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Client-ID",
+										"value": "{{X-Client-ID}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-Id",
+										"value": "{{X-Request-Id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"name\": \"software_update_status\",\n    \"parameters\": {}\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{command_url}}",
+									"host": [
+										"{{command_url}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 10:41:32 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"update_is_active\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "reboot",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"parameters\": {},\n    \"name\": \"request_restart\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bluetooth Operations",
+			"item": [
+				{
+					"name": "bluetooth.in_pairing_mode",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"method\": {\n        \"parameters\": {\n            \"property\": \"liberty.oobed.bluetooth.in_pairing_mode\"\n        },\n        \"name\": \"get_property\"\n    },\n    \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "set-in-paring-mode",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"query\",\n  \"method\": {\n    \"parameters\": {\n      \"command\": \"liberty.oobed.bluetooth.command.enter_pairing_mode\",\n      \"parameters\": {\n        \"spaceID\": \"{{space_id}}\"\n      }\n    },\n    \"name\": \"send_command\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bluetooth.connected_device_info",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Client-ID",
+								"value": "{{X-Client-ID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-Id",
+								"value": "{{X-Request-Id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"method\": {\n        \"name\": \"get_property\",\n        \"parameters\": {\n            \"property\": \"liberty.oobed.bluetooth.connected_device_info\"\n        }\n    },\n    \"type\": \"query\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{command_url}}",
+							"host": [
+								"{{command_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "device_ip",
+			"value": "10.0.0.1"
+		},
+		{
+			"key": "device_port",
+			"value": "42425",
+			"type": "string"
+		},
+		{
+			"key": "device_url",
+			"value": "{{device_ip}}:{{device_port}}",
+			"type": "string"
+		},
+		{
+			"key": "command_url",
+			"value": "https://{{device_url}}/mesh/node/{{node_id}}/channel/com.bowerswilkins.stated.service+provider/message",
+			"type": "string"
+		},
+		{
+			"key": "X-Client-ID",
+			"value": "f2396310-5c20-4f27-924e-7b350146200f"
+		},
+		{
+			"key": "X-Request-Id",
+			"value": "18988970-98a9-4509-a856-68be81975795"
+		},
+		{
+			"key": "node_id",
+			"value": ""
+		},
+		{
+			"key": "space_id",
+			"value": ""
+		},
+		{
+			"key": "version",
+			"value": ""
+		},
+		{
+			"key": "apk_api_key",
+			"value": "eyJhbGciOiJSU0EtU0hBMjU2IiwidmVyIjoiMSJ9.eyJ2ZXIiOiIzIiwiZW5kcG9pbnRzIjp7ImF1dGh6IjoiaHR0cHM6Ly93d3cuYW1hem9uLmNvbS9hcC9vYSIsInRva2VuRXhjaGFuZ2UiOiJodHRwczovL2FwaS5hbWF6b24uY29tL2F1dGgvbzIvdG9rZW4ifSwiY2xpZW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1vYTItY2xpZW50LjU4NDBmZDczNzk0NTQyNWE5YTc5ZTgyYmY1ZmQ0YjBmIiwiYXBwRmFtaWx5SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi5jMDc3ZjEwNTQ4NDg0M2ZhYWY1MjdlY2NiZDkyYTk0OSIsImlzcyI6IkFtYXpvbiIsInR5cGUiOiJBUElLZXkiLCJwa2ciOiJjb20uYm93ZXJzd2lsa2lucy5zcGxpY2UiLCJhcHBWYXJpYW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1jbGllbnQuY2U3M2NlYmZkYTY1NDE4MmFhMzAwYzA4NGNmOWIzZGMiLCJ0cnVzdFBvb2wiOm51bGwsImFwcHNpZ1NoYTI1NiI6IkRBOjZGOjQ1OjgzOjJBOjg4OkVFOjFBOkI0OjhCOkFDOjU0OkFFOjBCOjc5OjU2OkYxOjYzOkNEOkZEOjhCOjM0OkIxOkY1Ojg5OjczOkEwOjNGOjU1OjBBOjU1OjM0IiwiYXBwc2lnIjoiMEE6Q0M6RkE6QjE6MkY6Nzk6RjI6OTE6N0M6MTI6MUE6MTU6QjM6RkI6NkM6NDQiLCJhcHBJZCI6ImFtem4xLmFwcGxpY2F0aW9uLWNsaWVudC5jZTczY2ViZmRhNjU0MTgyYWEzMDBjMDg0Y2Y5YjNkYyIsImlkIjoiZmI5N2YxYTItZWYyMS00NmNmLWFkM2ItNmRlYTU1ZTA2YTc3IiwiaWF0IjoiMTYzNDcxNjIxMDM2NCJ9.DOTyGIKzABVzoEEUHT7J29ZYjaZr+StDBJd+NV+kdVvmYBtWT4xGhZ41TdeUxV/9++03SS29rqL3ZuL+tXXxo+9RbvcZITh4K5Cf9+NVrXNHDvoFw6RSyp6cv5e8uMQoHgSK4aFpQVzRVwA8N0fK9e4kCMCZWERb37IyqmKtiDuz29veHyMzyZEoBkyIx1V+J9IdDncG4/6qm0D8vDvOLFDtZjOQFn8UJA3X499xRSba/8zSwMsR9/qTJi7fDrPj4qSNuiQH0COCjYO3VZjvBYpuNE+smpzYGLcdL+pHmXb/1Ez8hAcJMk9IatPxGN3hSmLvozI2EE8+kJZx/UwR+w==",
+			"type": "string"
+		}
+	]
+}
